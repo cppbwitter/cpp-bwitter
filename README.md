@@ -13,5 +13,9 @@ First week:
  Second week:  
   -Parsing bwitter html  
   -User pages(via arguments)  
+# Compilation  
+- Install the libcurl library using your package manager of your choice.  
+- Run `make bwitter` to build cppbwitter, make argtest to build the argument test program.  
+  
 # Licensing  
 GNU GPL 2.0  
