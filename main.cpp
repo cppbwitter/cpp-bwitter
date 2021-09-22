@@ -22,71 +22,15 @@
 #include <cstdlib>
 #include <string>
 
-// include the config file
+// include the config file and subsequent modules
 #include "configs.cpp"
-
-// std::string server_link = "https://cleantalk.cf/bwitter/response.php?page=1";
-
-//init curl handle :vomit:
-/*int initCurl(void){
-    CURL *curl;
-    CURLcode res;
-
-    curl_global_init(CURL_GLOBAL_ALL);
-    curl = curl_easy_init();
-    if(curl){
-        curl_easy_setopt(curl,CURLOPT_URL,"https://bwitter.me/");
-        res = curl_easy_perform(curl);
-        if(res != CURLE_OK){
-            std::cout << "Hello error with curl" << std::endl;
-        }
-    }
-    curl_easy_cleanup(curl);
-    return 0;
-}
-*/
-int post(std::string username,std::string password,std::string postdata){
-    std::string loginfields = "username_or_email=" + username + "&password=" + password + "&commit";
-    std::cout << loginfields << std::endl;
-    std::string postfields = "content=" + postdata;
-    std::cout << postfields << std::endl;
-    std::string cookiefile = "sessions.txt";
-    CURL *curl;
-    CURLcode res;
-
-    curl_global_init(CURL_GLOBAL_ALL);
-    curl = curl_easy_init();
-
-    if(curl){
-        //login
-        curl_easy_setopt(curl,CURLOPT_URL,"https://bwitter.me/sessions");
-        curl_easy_setopt(curl,CURLOPT_POSTFIELDS,loginfields.c_str());
-        
-        // Save cookies from *this* session in MyCookieFileName
-        curl_easy_setopt( curl, CURLOPT_COOKIEJAR, cookiefile.c_str() );
-        curl_easy_setopt(curl, CURLOPT_POST, 1L);
+#include "post.cpp"
 
 
-        res = curl_easy_perform(curl);
-        if(res != CURLE_OK){
-            std::cout << "Error logging in. Wrong password?";
-        }
-        else{
-            //now post
-            // Read cookies from a previous session, as stored in MyCookieFileName.
-            curl_easy_setopt( curl, CURLOPT_COOKIEFILE, cookiefile.c_str() );
-            std::cout << "Logged in " << std::endl;
-            curl_easy_setopt(curl,CURLOPT_URL,"https://bwitter.me/bweet");
-            curl_easy_setopt(curl,CURLOPT_POSTFIELDS,postfields.c_str());
-            res = curl_easy_perform(curl);
-            if(res != CURLE_OK){
-                std::cout << postfields << " has been posted!" << std::endl;
-                return 0;
-            }
-        }
-    }
-}
 int main(void){
-    post(c_username,c_password,c_postcontent);
+    std::string postcontent;
+    std::cout << "Enter post content: ";
+    std::getline(std::cin , postcontent);
+    post(G_USERNAME,G_PASSWORD,postcontent);
     return 0;
 }
