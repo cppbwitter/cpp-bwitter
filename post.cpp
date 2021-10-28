@@ -21,21 +21,33 @@
 #include <curl/curl.h>
 #include <string>
 
-int post(std::string username,std::string password,std::string postdata){
+// include the config file
+#include "configs.cpp"
+
+int post(std::string username,std::string password,std::string postdata)
+{
+    // links for signin and post
+    std::string loginlink = G_INSTANCE + "/sessions";
+    std::string postlink = G_INSTANCE + "/bweet";
+
+    // POST request fields
     std::string loginfields = "username_or_email=" + username + "&password=" + password + "&commit";
     //std::cout << loginfields << std::endl;
     std::string postfields = "content=" + postdata;
     //std::cout << postfields << std::endl;
     std::string cookiefile = "sessions.txt";
+
+    // Generate cURL handle
     CURL *curl;
     CURLcode res;
 
     curl_global_init(CURL_GLOBAL_ALL);
     curl = curl_easy_init();
 
-    if(curl){
+    if(curl)
+    {
         //login
-        curl_easy_setopt(curl,CURLOPT_URL,"https://bwitter.me/sessions");
+        curl_easy_setopt(curl,CURLOPT_URL,loginlink);
         curl_easy_setopt(curl,CURLOPT_POSTFIELDS,loginfields.c_str());
         
         // Save cookies from *this* session in MyCookieFileName
@@ -43,19 +55,22 @@ int post(std::string username,std::string password,std::string postdata){
         curl_easy_setopt(curl, CURLOPT_POST, 1L);
 
         res = curl_easy_perform(curl);
-        if(res != CURLE_OK){
+        if(res != CURLE_OK)
+        {
             std::cout << "Error logging in. Wrong password?";
             return 1;
         }
-        else{
+        else
+        {
             //now post
             // Read cookies from a previous session, as stored in MyCookieFileName.
             curl_easy_setopt( curl, CURLOPT_COOKIEFILE, cookiefile.c_str() );
             std::cout << "Logged in " << std::endl;
-            curl_easy_setopt(curl,CURLOPT_URL,"https://bwitter.me/bweet");
+            curl_easy_setopt(curl,CURLOPT_URL,postlink);
             curl_easy_setopt(curl,CURLOPT_POSTFIELDS,postfields.c_str());
             res = curl_easy_perform(curl);
-            if(res == CURLE_OK){
+            if(res == CURLE_OK)
+            {
                 std::cout << "Content " << postdata << " has been posted!" << std::endl;
                 return 0;
             }
