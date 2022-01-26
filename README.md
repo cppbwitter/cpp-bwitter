@@ -1,10 +1,4 @@
-~~# Bwitter shutdown and updates (important)  
-As of 18 October 2021, bwitter.me has been down and permenantly shut down. The source code has also been released by Yuki(developer of bwitter).  
-Future releases of cpp-bwitter are uncertain, probably being put on a halt since the official site is down.  
-As such, consider this commit on 28 October 2021 as the last release of cpp-bwitter as a whole.  
-~~  
-Bwitter is back and the above notice is void.  
-# CPP-BWITTER  
+ # CPP-BWITTER  
 A bwitter client/interface thing-a-mag-jig for text terminal based computing.  
 A c++ library will also be created surrounding this project.  
 
